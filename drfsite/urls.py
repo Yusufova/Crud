@@ -16,13 +16,20 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path
+from django.urls import path, include
 from person.views import *
+from rest_framework import routers
+
+router = routers.SimpleRouter()
+router.register(r'listcreatepoet', CRUDPoet, basename="poet")
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('api/v1/ListCreatePoet/', ListCreatePoet.as_view()),
-    path('api/v1/UpdateDeletePoet/<int:pk>/', UpdateDeletePoet.as_view()),
+    path('api/v1/', include(router.urls)),
+    # path('api/v1/listcreatepoet/', CRUDPoet.as_view({"get": "list"})),
+    # path('api/v1/putpoet/<int:pk>/', CRUDPoet.as_view({"put": "update"}))
+
 ]
 
 
